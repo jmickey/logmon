@@ -8,7 +8,7 @@ from .monitor import HTTPLogMonitor
 def main():
     dir_path = '/usr/log/logmon.log'
 
-    # Store application logs in project directory
+    # Store application logs in project directory during development
     if 'ENV' in os.environ and os.environ['ENV'].lower() == 'development':
         curr_dir = os.path.dirname(os.path.realpath(__file__))
         dir_path = f'{curr_dir}/../logs/logmon.log'

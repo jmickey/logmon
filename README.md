@@ -22,6 +22,8 @@ Where:
 - Install dependencies - `pipenv install`
 - Launch with pipenv - `pipenv run python -m logmon [args]`
 
+**NOTE**: The log file must already exist.
+
 ### Docker
 
 - Build: `docker build . -t ddog-log-mon`
