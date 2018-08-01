@@ -1,0 +1,7 @@
+**/logs
+**/log
+**/.vscode
+**/.mypy_cache
+**/.env
+**/__pycache__
+**/.DS_Store
