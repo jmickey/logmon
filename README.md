@@ -1,5 +1,9 @@
 # HTTP log monitoring console program
 
+<p align="center">
+<img alt="Demo" src="demo.gif"/>
+</p>
+
 ## Usage
 
 Usage:
