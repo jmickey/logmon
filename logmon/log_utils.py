@@ -32,21 +32,24 @@ class LogItem:
             r'"(?P<request>.*)"',   # request "%r"
             r'(?P<status>[0-9]+)',  # status %>s
             r'(?P<size>\S+)',       # size %b (careful, can be '-')
-            r'"(?P<referrer>.*)"',  # referrer "%{Referer}i"
-            r'"(?P<agent>.*)"',     # user agent "%{User-agent}i"
         ]
-        pattern = re.compile(r'\s+'.join(parts)+r'\s*\Z')
+        pattern = re.compile(r'\s+'.join(parts)+r'.*\Z')
 
         data: dict = {}
         match = pattern.match(line)
         if match is not None:
             data = match.groupdict()
 
+        try:
+            size = int(data['size'])
+        except ValueError:
+            size = 0
+
         return LogItem(
             # '%d-%m-%Y %H:%M:%S %z' = dd/mm/yyyy hh:mm:ss timezone
             datetime.strptime(data['time'], '%d/%b/%Y:%H:%M:%S %z'),
             data['request'].split(' ')[1].split('/')[1],
-            int(data['size']),
+            size,
             int(data['status']))
 
 

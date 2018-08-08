@@ -31,7 +31,8 @@ class HTTPLogMonitor:
         self.remove_old_logs()
         lines = self.log_tailer.get_new_lines()
         if lines:
-            for line in lines:
+            # Remove empty lines
+            for line in (line for line in lines if line):
                 log_item = LogItem.parse_line(line)
                 self.log_data.append(log_item)
                 self.short_log_data.append(log_item)

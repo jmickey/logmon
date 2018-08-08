@@ -34,7 +34,7 @@ def main():
         '-d', '--alert-duration',
         default=120, type=int, help="Duration for alerting (in seconds).")
     parser.add_argument(
-        '-t', '--alert-threshold', default=20, type=int,
+        '-t', '--alert-threshold', default=10, type=int,
         help='Threshold for average requests per second over the alert '
              'duration.')
     args = parser.parse_args()
