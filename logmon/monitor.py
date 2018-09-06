@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 from logging import getLogger
+from typing import List, Optional
 from .log_utils import LogTailer, LogItem
 from .alert import TrafficAlert
 
@@ -20,11 +21,11 @@ class HTTPLogMonitor:
             self.log_tailer = LogTailer(self.file_path)
         self.total_requests = 0
         self.total_traffic = 0
-        self.alert = None
-        self.log_data: list = []
-        self.short_log_data: list = []
+        self.alert: Optional[TrafficAlert] = None
+        self.log_data: List[LogItem] = []
+        self.short_log_data: List[LogItem] = []
 
-    def update(self):
+    def update(self) -> None:
         """
         Retreives new log lines, parses them, and stores them in memory
         """
@@ -40,7 +41,7 @@ class HTTPLogMonitor:
                 self.total_requests += 1
         self.update_alert_status()
 
-    def remove_old_logs(self):
+    def remove_old_logs(self) -> None:
         """
         Remove logs from the short and long term log data lists based
         on the refresh rate and alert duration respectively.
@@ -51,7 +52,7 @@ class HTTPLogMonitor:
         self.short_log_data = [ln for ln in self.short_log_data
                                if (now - ln.time).seconds < self.refresh_rate]
 
-    def update_alert_status(self):
+    def update_alert_status(self) -> None:
         """
         Check alert status based on alert duration and threshold.
 
@@ -61,7 +62,7 @@ class HTTPLogMonitor:
         Therefore, it is simply a case of ensuring the length of the log_data
         list is not larger than the alert_threshold * alert_duration.
         """
-        hits = len(self.log_data)
+        hits: int = len(self.log_data)
         if hits > self.alert_traffic and not self.alert:
             self.alert = TrafficAlert(time_recovered=None, hits=hits)
             _logger.info(self.alert)

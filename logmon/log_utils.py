@@ -3,6 +3,7 @@ from logging import getLogger
 from os import SEEK_END
 from datetime import datetime
 from dataclasses import dataclass
+from typing import List
 
 _logger = getLogger(__name__)
 
@@ -15,7 +16,7 @@ class LogItem:
     status: int
 
     @staticmethod
-    def parse_line(line: str):
+    def parse_line(line: str) -> 'LogItem':
         """
         Source: https://gist.github.com/sumeetpareek/9644255
         Parse the log line and return a LogItem.
@@ -60,6 +61,6 @@ class LogTailer:
         self.file = open(file_path, 'r')
         self.file.seek(0, SEEK_END)
 
-    def get_new_lines(self) -> list:
+    def get_new_lines(self) -> List[str]:
         lines = self.file.readlines()
         return [line.strip() for line in lines]

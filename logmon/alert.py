@@ -1,17 +1,18 @@
 from logging import getLogger
 from datetime import datetime
 from dataclasses import dataclass
+from typing import Optional
 
 _logger = getLogger(__name__)
 
 
 @dataclass
 class BaseAlert:
-    time_recovered: datetime
+    time_recovered: Optional[datetime]
     time_triggered: datetime = datetime.now()
     recovered: bool = False
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.recovered:
             return ('Generic alert recovered at '
                     f'{self.time_recovered:%d-%m-%Y %I:%M%p}')
@@ -27,7 +28,7 @@ class BaseAlert:
 class TrafficAlert(BaseAlert):
     hits: int = 0
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.recovered:
             return ('High traffic alert recovered at '
                     f'{self.time_recovered:%d-%m-%Y %I:%M%p}')
